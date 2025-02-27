@@ -1,6 +1,6 @@
 "use server";
 
-import { PaginatedProductsData, ProductsData } from "../../lib/types/product";
+import { PaginatedProductsData } from "../../lib/types/product";
 
 /**
  * Fetches products directly from the external GraphQL API
