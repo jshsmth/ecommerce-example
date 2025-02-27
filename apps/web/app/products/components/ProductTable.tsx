@@ -1,68 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { getProducts } from "../actions";
 import { ProductCard } from "./ProductCard";
 import { PaginatedProductsData } from "../../../lib/types/product";
+import { useProductTable } from "../hooks/useProductTable";
 
 interface ProductsTableProps {
   initialData: PaginatedProductsData;
 }
 
 export function ProductsTable({ initialData }: ProductsTableProps) {
-  const [data, setData] = useState<PaginatedProductsData>(initialData);
-  const [isLoading, setIsLoading] = useState(false);
-  // Keep track of the current page data for smooth transitions
-  const [displayData, setDisplayData] =
-    useState<PaginatedProductsData>(initialData);
-
-  const handlePrevPage = async () => {
-    if (data.pagination.offset === 0) return;
-
-    setIsLoading(true);
-    const newOffset = Math.max(
-      0,
-      data.pagination.offset - data.pagination.limit
-    );
-    try {
-      const newData = await getProducts(data.pagination.limit, newOffset);
-      setData(newData);
-      setDisplayData(newData);
-    } catch (error) {
-      console.error("Error fetching previous page:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleNextPage = async () => {
-    setIsLoading(true);
-    try {
-      const newData = await getProducts(
-        data.pagination.limit,
-        data.pagination.nextOffset
-      );
-      setData(newData);
-      setDisplayData(newData);
-    } catch (error) {
-      console.error("Error fetching next page:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChangePageSize = async (newLimit: number) => {
-    setIsLoading(true);
-    try {
-      const newData = await getProducts(newLimit, 0);
-      setData(newData);
-      setDisplayData(newData);
-    } catch (error) {
-      console.error("Error changing page size:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    displayData,
+    isLoading,
+    handlePrevPage,
+    handleNextPage,
+    handleChangePageSize,
+    isPrevDisabled,
+    isNextDisabled,
+  } = useProductTable(initialData);
 
   return (
     <div>
@@ -77,7 +32,7 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
               <select
                 id="pageSize"
                 className="border rounded px-2 py-1 text-sm"
-                value={data.pagination.limit}
+                value={displayData.pagination.limit}
                 onChange={(e) => handleChangePageSize(Number(e.target.value))}
                 disabled={isLoading}
               >
@@ -113,9 +68,9 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
             <div className="flex space-x-2">
               <button
                 onClick={handlePrevPage}
-                disabled={data.pagination.offset === 0 || isLoading}
+                disabled={isPrevDisabled}
                 className={`px-4 py-2 rounded ${
-                  data.pagination.offset === 0 || isLoading
+                  isPrevDisabled
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                     : "bg-blue-500 text-white hover:bg-blue-600"
                 }`}
@@ -124,11 +79,9 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
               </button>
               <button
                 onClick={handleNextPage}
-                disabled={
-                  data.products.length < data.pagination.limit || isLoading
-                }
+                disabled={isNextDisabled}
                 className={`px-4 py-2 rounded ${
-                  data.products.length < data.pagination.limit || isLoading
+                  isNextDisabled
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                     : "bg-blue-500 text-white hover:bg-blue-600"
                 }`}
