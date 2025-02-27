@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { PaginatedProductsData } from "../../../lib/types/product";
 import { getProducts } from "../actions";
+import { ProductCard } from "./ProductCard";
+import { PaginatedProductsData } from "../../../lib/types/product";
 
 interface ProductsTableProps {
   initialData: PaginatedProductsData;
 }
 
-export default function ProductsTable({ initialData }: ProductsTableProps) {
+export function ProductsTable({ initialData }: ProductsTableProps) {
   const [data, setData] = useState<PaginatedProductsData>(initialData);
   const [isLoading, setIsLoading] = useState(false);
   // Keep track of the current page data for smooth transitions
@@ -88,26 +89,15 @@ export default function ProductsTable({ initialData }: ProductsTableProps) {
             </div>
           </div>
 
-          {/* Fixed height container to prevent layout shift */}
           <div className="relative min-h-[400px]">
             <div
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-opacity duration-300 ${isLoading ? "opacity-40" : "opacity-100"}`}
             >
               {displayData.products.map((product) => (
-                <div
-                  key={product.id}
-                  className="border rounded-lg p-4 shadow-sm"
-                >
-                  <h3 className="font-medium">{product.title}</h3>
-                  <p className="text-gray-600 mt-1">${product.price}</p>
-                  <p className="text-gray-500 text-sm mt-2 line-clamp-2">
-                    {product.description}
-                  </p>
-                </div>
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
 
-            {/* Overlay loading indicator */}
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>

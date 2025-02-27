@@ -22,6 +22,7 @@ export interface PaginationInfo {
   nextOffset: number;
 }
 
-export interface PaginatedProductsData extends ProductsData {
+export interface PaginatedProductsData {
+  products: Product[];
   pagination: PaginationInfo;
 }
