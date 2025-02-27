@@ -3,7 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx"
+    ".": {
+      "import": "./src/index.ts"
+    },
+    "./button": {
+      "import": "./src/button.tsx"
+    },
+    "./card": {
+      "import": "./src/card.tsx"
+    },
+    "./code": {
+      "import": "./src/code.tsx"
+    },
+    "./styles": {
+      "import": "./src/output.css"
+    }
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -21,7 +35,9 @@
     "typescript": "5.7.3"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.0.9",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.9"
   }
 }
