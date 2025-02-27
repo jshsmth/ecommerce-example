@@ -1,84 +1,78 @@
-# Turborepo starter
+# Smithy Frontend Engineer
 
-This Turborepo starter is maintained by the Turborepo core team.
+This is a Turborepo-based monorepo project.
 
-## Using this example
+## Getting Started
 
-Run the following command:
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm (version 10.9.2 or compatible)
+
+### Installation
+
+Clone the repository and install dependencies:
 
 ```sh
-npx create-turbo@latest
+git clone <repository-url>
+cd smithy-frontend-engineer
+npm install
 ```
 
 ## What's inside?
 
-This Turborepo includes the following packages/apps:
+This monorepo includes the following apps and packages:
 
-### Apps and Packages
+### Apps
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `web`: a [Next.js](https://nextjs.org/) application
+
+### Packages
+
+- `@repo/ui`: a React component library shared by applications
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Running Locally
 
-### Utilities
+### Development Mode
 
-This Turborepo has some additional tools already setup for you:
+To run all apps and packages in development mode:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```sh
+npm run dev
 ```
 
-### Develop
+This will start the development server for all applications. The web app will be available at [http://localhost:3000](http://localhost:3000).
 
-To develop all apps and packages, run the following command:
+### Building for Production
 
-```
-cd my-turborepo
-pnpm dev
-```
+To build all apps and packages:
 
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```sh
+npm run build
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Linting
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+To run linting across all apps and packages:
 
+```sh
+npm run lint
 ```
-npx turbo link
+
+### Type Checking
+
+To run type checking across all apps and packages:
+
+```sh
+npm run check-types
 ```
 
-## Useful Links
+### Formatting
 
-Learn more about the power of Turborepo:
+To format all files:
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+```sh
+npm run format
+```
