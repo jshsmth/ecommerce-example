@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   variant?: "primary" | "secondary" | "outline";
   size?: "sm" | "md" | "lg";
+  disabled?: boolean;
 }
 
 export const Button = ({
@@ -16,6 +17,7 @@ export const Button = ({
   onClick,
   variant = "primary",
   size = "md",
+  disabled = false,
 }: ButtonProps) => {
   // Base Tailwind classes for all buttons
   const baseClasses =
@@ -41,7 +43,7 @@ export const Button = ({
   const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
   return (
-    <button className={buttonClasses} onClick={onClick}>
+    <button className={buttonClasses} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
