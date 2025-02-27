@@ -1,5 +1,3 @@
-import './output.css';
+import "./output.css";
 
-export * from './button';
-export * from './card';
-export * from './code'; 
+export * from "./button";

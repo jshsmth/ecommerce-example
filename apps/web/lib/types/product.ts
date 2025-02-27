@@ -15,3 +15,14 @@ export interface Product {
 export interface ProductsData {
   products: Product[];
 }
+
+export interface PaginationInfo {
+  limit: number;
+  offset: number;
+  nextOffset: number;
+}
+
+export interface PaginatedProductsData {
+  products: Product[];
+  pagination: PaginationInfo;
+}

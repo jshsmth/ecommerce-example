@@ -1,12 +1,17 @@
 "use server";
 
-import { ProductsData } from "../../lib/types/product";
+import { PaginatedProductsData, ProductsData } from "../../lib/types/product";
 
 /**
  * Fetches products directly from the external GraphQL API
- * @returns Promise containing product data
+ * @param limit Number of products to fetch
+ * @param offset Starting position for pagination
+ * @returns Promise containing paginated product data
  */
-export async function getProducts(): Promise<ProductsData> {
+export async function getProducts(
+  limit = 10,
+  offset = 0
+): Promise<PaginatedProductsData> {
   try {
     const response = await fetch("https://api.escuelajs.co/graphql", {
       method: "POST",
@@ -16,7 +21,7 @@ export async function getProducts(): Promise<ProductsData> {
       body: JSON.stringify({
         query: `
           {
-            products {
+            products(limit: ${limit}, offset: ${offset}) {
               id
               title
               price
@@ -37,9 +42,24 @@ export async function getProducts(): Promise<ProductsData> {
     }
 
     const { data } = await response.json();
-    return data;
+
+    return {
+      products: data.products || [],
+      pagination: {
+        limit,
+        offset,
+        nextOffset: offset + limit,
+      },
+    };
   } catch (error) {
     console.error("Error fetching products:", error);
-    return { products: [] };
+    return {
+      products: [],
+      pagination: {
+        limit,
+        offset,
+        nextOffset: offset + limit,
+      },
+    };
   }
 }
