@@ -1,6 +1,7 @@
 // Import the Tailwind CSS
 import "@repo/ui/styles";
-import { getProducts } from "../lib/services/products";
+import { getProducts } from "./products/actions";
+
 export default async function Home() {
   const data = await getProducts();
   return (
