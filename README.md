@@ -1,134 +1,84 @@
-# Frontend Developer Take-Home Test
+# Turborepo starter
 
-## Overview
+This Turborepo starter is maintained by the Turborepo core team.
 
-Develop a responsive e-commerce web application that allows users to browse products, view product details, and add products to a shopping cart.
-The application should integrate with a backend API to fetch product data.
+## Using this example
 
-- The goal is a clear demonstration of quality, functionality, and thought process.
-- **Timebox:** The test is designed to be completed in 6 hours or less.
-- **Commit Often:** Show your working process through regular commits.
-- **External dependencies:** Use any external dependencies you see fit, you do not need to implement everything from scratch.
-- **Keep It Minimal:** Use lightweight libraries and avoid adding unnecessary features, or over-engineering the solution.
+Run the following command:
 
-## Requirements
+```sh
+npx create-turbo@latest
+```
 
-### Functional
+## What's inside?
 
-1. **Product Listing Page**
-    - Display a list of products with images, names, and prices.
-    - Implement pagination or infinite scrolling.
+This Turborepo includes the following packages/apps:
 
-2. **Product Detail Page**
-    - Show detailed information about the selected product.
-    - Include an "Add to Cart" button.
+### Apps and Packages
 
-3. **Shopping Cart**
-    - Allow users to view products added to their cart.
-    - Display the total price and quantity of items.
-    - Enable users to remove items from the cart.
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-4. **Responsive Design**
-    - Ensure the application is usable on desktop, tablet, and mobile devices.
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-### Technical
+### Utilities
 
-- **Frameworks & Libraries**
-    - **Next.js** with **TypeScript**.
-    - Style components using **Tailwind CSS**.
+This Turborepo has some additional tools already setup for you:
 
-- **State Management**
-    - Manage application state efficiently.
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
 
-- **TypeScript**
-    - Use TypeScript for type-checking and code quality.
-    - 
-- **API Integration**
-    - Fetch data from a provided RESTful API endpoint.
-    - Handle loading states and error handling gracefully.
-    - API should be typed using TypeScript.
+### Build
 
-- **Code Quality**
-    - Apply **SOLID principles** and design patterns.
-    - Write consistent, clean, maintainable, and scalable code.
-    - Create universal and reusable UI components.
+To build all apps and packages, run the following command:
 
-- **Testing**
-    - Write unit tests for critical components (optional).
+```
+cd my-turborepo
+pnpm build
+```
 
-## Getting Started
+### Develop
 
-1. **Fork this Repository**
-    - You can start by forking this repository.
+To develop all apps and packages, run the following command:
 
-2. **Setup Project**
-    - Initialize a new Next.js project with TypeScript.
-    - Install Tailwind CSS and configure it.
+```
+cd my-turborepo
+pnpm dev
+```
 
-3. **API Endpoint**
-    - Use a mock API for product data such as [Fake Store API](https://fakestoreapi.com/).
+### Remote Caching
 
-4. **Development**
-    - Follow the requirements to build the application.
-    - Ensure the application builds and runs without errors.
+> [!TIP]
+> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
 
-## Submission Guidelines
+Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-- **Repository**
-    - Push your code to a **public GitHub repository**.
-    - Ensure the repository has a clear commit history, and commit regularly.
-    - Ensure the repository is a fork of this repository.
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
 
-- **README File**
-    - Include instructions on how to run your application.
-    - Describe your thought process and any architectural decisions.
-    - Mention any trade-offs or assumptions made during development.
+```
+cd my-turborepo
+npx turbo login
+```
 
-- **Deployment**
-    - (Optional) Deploy your application using services like **Vercel**.
-    - Provide a link to the live application if deployed.
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-- **Submission**
-    - Email us the link to your GitHub repository (and live demo if available) at [sam.thompson@playa3ull.games].
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
 
-## Evaluation Criteria
+```
+npx turbo link
+```
 
-- **Functionality**
-    - Does the application meet all the functional requirements?
+## Useful Links
 
-- **Code Quality**
-    - Is the code clean, well-organized, and maintainable?
-    - Are SOLID principles and design patterns appropriately applied?
+Learn more about the power of Turborepo:
 
-- **Technical Skills**
-    - Effective use of React, TypeScript, and Tailwind CSS.
-    - Proper integration with the backend API.
-
-- **User Experience**
-    - Is the UI responsive and user-friendly?
-    - Does the design consider good UX practices?
-
-- **Problem-Solving**
-    - How were challenges addressed?
-    - Were creative solutions implemented?
-
-- **Documentation**
-    - Clarity of the README file.
-    - Use of comments and documentation within the code.
-
-## Extra Credit
-
-*These are not required but can showcase your additional skills:*
-
-- **GraphQL or tRPC**
-    - Use GraphQL or tRPC instead of REST for API interactions.
-
-- **Monorepo Setup**
-    - Organize your project using a monorepo approach.
-
-- **SEO Enhancements**
-    - Implement SEO optimisation.
-
-- **E-commerce Features**
-    - Add user authentication.
-    - Implement a checkout process.
+- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
+- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
+- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
+- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
+- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
+- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
