@@ -1,5 +1,6 @@
 import { Product } from "../../../lib/types/product";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@repo/ui";
 import { StarRating } from "./StarRating";
 
@@ -69,29 +70,31 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
         </p>
 
         <div className="mt-auto">
-          <Button
-            variant="primary"
-            size="sm"
-            className="w-full flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300"
-          >
-            <span className="inline-flex items-center">
-              View Details
-              <svg
-                className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-0.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </span>
-          </Button>
+          <Link href={`/product?id=${product.id}`} passHref>
+            <Button
+              variant="primary"
+              size="sm"
+              className="w-full flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300"
+            >
+              <span className="inline-flex items-center">
+                View Details
+                <svg
+                  className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </span>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
