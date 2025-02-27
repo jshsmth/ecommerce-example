@@ -21,7 +21,7 @@ export const Button = ({
 }: ButtonProps) => {
   // Base Tailwind classes for all buttons
   const baseClasses =
-    "rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer";
 
   // Variant-specific classes
   const variantClasses = {
