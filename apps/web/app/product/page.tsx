@@ -3,7 +3,7 @@ import type { Product } from "../../lib/types/product";
 import Link from "next/link";
 import ProductImageGallery from "./components/ProductImageGallery";
 
-type SearchParams = { [key: string]: string | string[] | undefined };
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function Product(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
