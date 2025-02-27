@@ -1,6 +1,12 @@
-import { NextResponse } from "next/server";
+"use server";
 
-export async function GET() {
+import { ProductsData } from "../../lib/types/product";
+
+/**
+ * Fetches products directly from the external GraphQL API
+ * @returns Promise containing product data
+ */
+export async function getProducts(): Promise<ProductsData> {
   try {
     const response = await fetch("https://api.escuelajs.co/graphql", {
       method: "POST",
@@ -31,12 +37,9 @@ export async function GET() {
     }
 
     const { data } = await response.json();
-    return NextResponse.json(data);
+    return data;
   } catch (error) {
     console.error("Error fetching products:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch products" },
-      { status: 500 }
-    );
+    return { products: [] };
   }
 }
