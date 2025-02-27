@@ -19,7 +19,6 @@ export const Button = ({
   size = "md",
   disabled = false,
 }: ButtonProps) => {
-  // Base Tailwind classes for all buttons
   const baseClasses =
     "rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer";
 
@@ -32,14 +31,12 @@ export const Button = ({
       "bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500",
   };
 
-  // Size-specific classes
   const sizeClasses = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-4 py-2 text-base",
     lg: "px-6 py-3 text-lg",
   };
 
-  // Combine all classes
   const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
   return (

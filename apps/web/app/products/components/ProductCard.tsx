@@ -1,7 +1,7 @@
 import { Product } from "../../../lib/types/product";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@repo/ui";
+import { Button, Card } from "@repo/ui";
 import { StarRating } from "./StarRating";
 
 interface ProductCardProps {
@@ -16,7 +16,14 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
   }).format(product.price);
 
   return (
-    <div className="group rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white flex flex-col h-full border border-gray-100">
+    <Card
+      variant="outlined"
+      padding="none"
+      rounded="lg"
+      shadow="sm"
+      hoverEffect={true}
+      className="group flex flex-col h-full"
+    >
       <div className="relative aspect-[4/3] w-full bg-gray-50 overflow-hidden">
         <Image
           src={
@@ -97,6 +104,6 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
           </Link>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
