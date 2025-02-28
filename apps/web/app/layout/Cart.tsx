@@ -2,11 +2,14 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCartStore } from "../../lib/store/cartStore";
+import { Button } from "@repo/ui";
 
 export default function Cart() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const { items, totalItems, totalPrice, removeItem, updateQuantity } =
     useCartStore();
 
@@ -25,37 +28,40 @@ export default function Cart() {
 
   return (
     <div className="relative" ref={cartRef}>
-      <button
-        className="p-2 rounded-full text-gray-400 hover:text-blue-500 hover:bg-gray-50 transition-colors relative"
+      <Button
+        variant="outline"
+        size="sm"
+        className="p-2 rounded-full text-gray-400 hover:text-blue-500 focus:ring-blue-500 transition-colors relative flex items-center justify-center"
         onClick={() => setIsCartOpen(!isCartOpen)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="h-6 w-6"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
         >
           <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
         </svg>
         {totalItems > 0 && (
-          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
             {totalItems}
           </span>
         )}
-      </button>
+      </Button>
 
       {isCartOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-2 z-20 border border-gray-100 max-h-[80vh] overflow-auto">
-          <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">Shopping Cart</p>
+        <div className="absolute right-0 mt-3 w-96 bg-white rounded-lg shadow-xl py-4 z-20 border border-gray-200 max-h-[80vh] overflow-auto">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <p className="text-base font-medium text-gray-900">Shopping Cart</p>
           </div>
 
           {items.length === 0 ? (
-            <div className="px-4 py-6 text-center">
-              <div className="text-gray-400 mb-2">
+            <div className="px-6 py-8 text-center">
+              <div className="text-gray-400 mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 mx-auto"
+                  className="h-20 w-20 mx-auto"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -68,119 +74,127 @@ export default function Cart() {
                   />
                 </svg>
               </div>
-              <p className="text-sm text-gray-500">Your cart is empty</p>
+              <p className="text-sm text-gray-500 mt-2">Your cart is empty</p>
             </div>
           ) : (
             <>
               <div className="divide-y divide-gray-100">
                 {items.map((item) => (
-                  <div key={item.id} className="px-4 py-3 flex items-center">
-                    <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 relative">
+                  <div
+                    key={item.id}
+                    className="px-6 py-4 flex items-center gap-4"
+                  >
+                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 relative">
                       <Image
                         src={item.image}
                         alt={item.title}
                         fill
-                        sizes="64px"
+                        sizes="80px"
                         className="object-cover object-center"
                       />
                     </div>
-                    <div className="ml-3 flex-1">
-                      <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    <div className="ml-2 flex-1">
+                      <p className="text-sm font-medium text-gray-900 line-clamp-1 mb-2">
                         {item.title}
                       </p>
-                      <div className="flex items-center justify-between mt-1">
-                        <div className="flex items-center">
-                          <button
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center bg-gray-50 rounded-md p-1">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md"
                             onClick={() =>
                               updateQuantity(
                                 item.id,
                                 Math.max(1, item.quantity - 1)
                               )
                             }
-                            className="text-gray-500 hover:text-gray-700 p-1"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              className="h-3 w-3"
-                              fill="none"
+                              className="h-6 w-6"
                               viewBox="0 0 24 24"
+                              fill="none"
                               stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M20 12H4"
-                              />
+                              <path d="M5 12h14" />
                             </svg>
-                          </button>
-                          <span className="mx-1 text-xs text-gray-700">
+                          </Button>
+                          <span className="mx-3 text-sm text-gray-700 w-5 text-center font-medium">
                             {item.quantity}
                           </span>
-                          <button
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md"
                             onClick={() =>
                               updateQuantity(item.id, item.quantity + 1)
                             }
-                            className="text-gray-500 hover:text-gray-700 p-1"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              className="h-3 w-3"
-                              fill="none"
+                              className="h-6 w-6"
                               viewBox="0 0 24 24"
+                              fill="none"
                               stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 4v16m8-8H4"
-                              />
+                              <path d="M12 5v14M5 12h14" />
                             </svg>
-                          </button>
+                          </Button>
                         </div>
-                        <p className="text-xs font-medium text-gray-900">
+                        <p className="text-sm font-medium text-gray-900">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     </div>
-                    <button
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="ml-2 text-gray-400 hover:text-gray-600 border-0 shadow-none h-10 w-10 flex items-center justify-center bg-transparent hover:bg-gray-50 rounded-full"
                       onClick={() => removeItem(item.id)}
-                      className="ml-2 text-gray-400 hover:text-gray-600"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        fill="none"
+                        className="h-6 w-6"
                         viewBox="0 0 24 24"
+                        fill="none"
                         stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
+                        <path d="M18 6L6 18M6 6l12 12" />
                       </svg>
-                    </button>
+                    </Button>
                   </div>
                 ))}
               </div>
 
-              <div className="px-4 py-3 border-t border-gray-100">
-                <div className="flex justify-between text-sm font-medium text-gray-900 mb-3">
-                  <p>Subtotal</p>
-                  <p>${totalPrice.toFixed(2)}</p>
+              <div className="px-6 py-4 border-t border-gray-200 mt-2">
+                <div className="flex justify-between text-sm font-medium text-gray-900 mb-4">
+                  <p className="text-base">Subtotal</p>
+                  <p className="text-base">${totalPrice.toFixed(2)}</p>
                 </div>
-                <button
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm font-medium"
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="w-full text-white font-medium py-3"
                   onClick={() => {
                     setIsCartOpen(false);
-                    // You could navigate to checkout page here
+                    router.push("/checkout");
                   }}
                 >
                   Checkout
-                </button>
+                </Button>
               </div>
             </>
           )}
