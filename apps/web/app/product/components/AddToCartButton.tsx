@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@repo/ui";
 import { useCartStore } from "../../../lib/store/cartStore";
-import type { Product } from "../../../lib/types/product";
+import { Product } from "../../../lib/types/product";
 
 interface AddToCartButtonProps {
   product: Product;
@@ -18,9 +19,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
         id: product.id,
         title: product.title,
         price: product.price,
-        image:
-          product.images?.[0] ||
-          "https://placehold.co/300x200/e2e8f0/64748b?text=No+Image",
+        image: product.image,
       },
       quantity
     );
@@ -49,8 +48,10 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
         </select>
       </div>
 
-      <button
-        className="w-full bg-blue-600 text-white py-3.5 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center font-medium shadow-sm hover:shadow-md"
+      <Button
+        variant="primary"
+        size="lg"
+        className="w-full flex items-center justify-center"
         onClick={handleAddToCart}
       >
         <svg
@@ -68,7 +69,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
           />
         </svg>
         Add to Cart
-      </button>
+      </Button>
     </div>
   );
 }

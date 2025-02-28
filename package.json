@@ -20,5 +20,13 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@tanstack/react-query": "^5.66.9",
+    "@trpc/client": "^11.0.0-rc.818",
+    "@trpc/next": "^11.0.0-rc.818",
+    "@trpc/react-query": "^11.0.0-rc.818",
+    "@trpc/server": "^11.0.0-rc.818",
+    "zod": "^3.24.2"
+  }
 }

@@ -8,11 +8,19 @@ export interface Product {
   title: string;
   price: number;
   description: string;
-  category: Category;
-  images: string[];
+  image: string;
+  brand: string;
+  model: string;
+  color: string;
+  category: string;
+  onSale?: boolean;
+  discount?: number;
+  popular?: boolean;
 }
 
-export interface ProductsData {
+export interface ApiResponse {
+  status: string;
+  message: string;
   products: Product[];
 }
 
@@ -22,7 +30,15 @@ export interface PaginationInfo {
   nextOffset: number;
 }
 
+export interface PaginatedProductsResponse {
+  status: string;
+  message: string;
+  products: Product[];
+}
+
 export interface PaginatedProductsData {
   products: Product[];
   pagination: PaginationInfo;
+  totalCount: number;
+  hasMore: boolean;
 }
