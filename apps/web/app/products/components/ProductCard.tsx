@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, Card } from "@repo/ui";
 import { StarRating } from "./StarRating";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,11 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
     currency: "USD",
   }).format(product.price);
 
+  const [imgSrc, setImgSrc] = useState<string>(
+    product.images?.[0] || "/no-image.svg"
+  );
+  const [imgError, setImgError] = useState<boolean>(false);
+
   return (
     <Card
       variant="outlined"
@@ -26,15 +32,18 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
     >
       <div className="relative aspect-[4/3] w-full bg-gray-50 overflow-hidden">
         <Image
-          src={
-            product.images?.[0] ||
-            "https://placehold.co/300x200/e2e8f0/64748b?text=No+Image"
-          }
+          src={imgSrc}
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           priority={false}
+          onError={() => {
+            if (!imgError) {
+              setImgSrc("/no-image.svg");
+              setImgError(true);
+            }
+          }}
         />
         <div className="absolute top-0 right-0 bg-blue-500 text-white px-3 py-1 m-3 rounded-full text-sm font-medium shadow-sm">
           {formattedPrice}
