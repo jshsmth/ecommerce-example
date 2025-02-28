@@ -6,7 +6,6 @@ export default function Cart() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
 
-  // Close the cart dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
