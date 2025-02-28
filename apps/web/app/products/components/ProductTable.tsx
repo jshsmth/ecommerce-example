@@ -34,7 +34,10 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
         <div className="mb-8">
           <div className="pb-16">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
-              <h2 className="text-2xl font-semibold text-gray-800">
+              <h2
+                id="explore-products"
+                className="text-2xl font-semibold text-gray-800"
+              >
                 Explore Products
               </h2>
               <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">

@@ -16,10 +16,25 @@ export default function Navbar({
 }: NavbarProps) {
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/products", label: "Products" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/#explore-products", label: "Products", scroll: true },
   ];
+
+  const handleHomeClick = (e: React.MouseEvent) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleProductsClick = (e: React.MouseEvent) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      const productsSection = document.querySelector("#explore-products");
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   return (
     <header className="w-full bg-white/95 border-b border-gray-50 sticky top-0 z-10 shadow-sm">
@@ -40,7 +55,18 @@ export default function Navbar({
 
           <nav className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <NavLink key={link.href} href={link.href} label={link.label} />
+              <NavLink
+                key={link.href}
+                href={link.href}
+                label={link.label}
+                onClick={
+                  link.label === "Products"
+                    ? handleProductsClick
+                    : link.label === "Home"
+                      ? handleHomeClick
+                      : undefined
+                }
+              />
             ))}
           </nav>
 
@@ -65,13 +91,15 @@ export default function Navbar({
 interface NavLinkProps {
   href: string;
   label: string;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-function NavLink({ href, label }: NavLinkProps) {
+function NavLink({ href, label, onClick }: NavLinkProps) {
   return (
     <Link
       href={href}
       className="text-gray-500 hover:text-blue-500 font-medium text-sm transition-colors"
+      onClick={onClick}
     >
       {label}
     </Link>
