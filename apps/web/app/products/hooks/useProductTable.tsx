@@ -1,70 +1,59 @@
 import { useState } from "react";
-import { getProducts } from "../actions";
-import { PaginatedProductsData } from "../../../lib/types/product";
+import { trpc } from "../../providers";
+import { keepPreviousData } from "@tanstack/react-query";
 
-export function useProductTable(initialData: PaginatedProductsData) {
-  const [data, setData] = useState<PaginatedProductsData>(initialData);
-  const [isLoading, setIsLoading] = useState(false);
-  // Keep track of the current page data for smooth transitions
-  const [displayData, setDisplayData] =
-    useState<PaginatedProductsData>(initialData);
+export function useProductTable() {
+  const [query, setQuery] = useState({
+    limit: 10,
+    page: 1,
+  });
 
-  const handlePrevPage = async () => {
-    if (data.pagination.offset === 0) return;
+  const productsQuery = trpc.product.getProducts.useQuery(query, {
+    placeholderData: keepPreviousData,
+  });
 
-    setIsLoading(true);
-    const newOffset = Math.max(
-      0,
-      data.pagination.offset - data.pagination.limit
-    );
-    try {
-      const newData = await getProducts(data.pagination.limit, newOffset);
-      setData(newData);
-      setDisplayData(newData);
-    } catch (error) {
-      console.error("Error fetching previous page:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handlePrevPage = () => {
+    if (!productsQuery.isSuccess) return;
+
+    const newPage = Math.max(1, query.page - 1);
+    setQuery({
+      ...query,
+      page: newPage,
+    });
   };
 
-  const handleNextPage = async () => {
-    setIsLoading(true);
-    try {
-      const newData = await getProducts(
-        data.pagination.limit,
-        data.pagination.nextOffset
-      );
-      setData(newData);
-      setDisplayData(newData);
-    } catch (error) {
-      console.error("Error fetching next page:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleNextPage = () => {
+    if (!productsQuery.isSuccess || !productsQuery.data?.hasMore) return;
+
+    const newPage = query.page + 1;
+    setQuery({
+      ...query,
+      page: newPage,
+    });
   };
 
-  const handleChangePageSize = async (newLimit: number) => {
-    setIsLoading(true);
-    try {
-      const newData = await getProducts(newLimit, 0);
-      setData(newData);
-      setDisplayData(newData);
-    } catch (error) {
-      console.error("Error changing page size:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleChangePageSize = (newLimit: number) => {
+    setQuery({
+      limit: newLimit,
+      page: 1, // Reset to first page when changing page size
+    });
   };
+
+  const currentPage = query.page - 1; // Convert to 0-based for display purposes
+  const isPrevDisabled = query.page === 1 || productsQuery.isFetching;
+  const isNextDisabled =
+    productsQuery.isFetching ||
+    !productsQuery.isSuccess ||
+    !productsQuery.data?.hasMore;
 
   return {
-    data,
-    displayData,
-    isLoading,
+    data: productsQuery.data,
+    isLoading: productsQuery.isLoading,
     handlePrevPage,
     handleNextPage,
     handleChangePageSize,
-    isPrevDisabled: data.pagination.offset === 0 || isLoading,
-    isNextDisabled: data.products.length < data.pagination.limit || isLoading,
+    isPrevDisabled,
+    isNextDisabled,
+    currentPage,
   };
 }

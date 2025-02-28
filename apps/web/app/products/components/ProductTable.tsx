@@ -1,36 +1,30 @@
 "use client";
 
 import { ProductCard } from "./ProductCard";
-import { PaginatedProductsData } from "../../../lib/types/product";
 import { useProductTable } from "../hooks/useProductTable";
 import { PaginationFooter } from "./PaginationFooter";
+import { LoadingSkeleton } from "../../layout/Skeleton";
 
-interface ProductsTableProps {
-  initialData: PaginatedProductsData;
-}
-
-export function ProductsTable({ initialData }: ProductsTableProps) {
+export function ProductsTable() {
   const {
-    displayData,
+    data,
     isLoading,
     handlePrevPage,
     handleNextPage,
     handleChangePageSize,
     isPrevDisabled,
     isNextDisabled,
-  } = useProductTable(initialData);
+    currentPage,
+  } = useProductTable();
 
-  // Simple calculation for current page (0-indexed)
-  const currentPage =
-    displayData.pagination.offset / displayData.pagination.limit;
-
-  // Simple calculation for total items - just use what we know for sure
-  const totalItems =
-    displayData.pagination.offset + displayData.products.length;
+  // Only show loading skeleton on initial load
+  if (isLoading && !data) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto">
-      {displayData?.products && (
+      {data?.products && (
         <div className="mb-8">
           <div className="pb-16">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
@@ -50,7 +44,7 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
                 <select
                   id="pageSize"
                   className="border border-gray-200 rounded-md px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
-                  value={displayData.pagination.limit}
+                  value={data.pagination.limit}
                   onChange={(e) => handleChangePageSize(Number(e.target.value))}
                   disabled={isLoading}
                 >
@@ -66,7 +60,7 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
               <div
                 className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-300 ${isLoading ? "opacity-40" : "opacity-100"}`}
               >
-                {displayData.products.map((product) => (
+                {data.products.map((product) => (
                   <ProductCard
                     key={product.id}
                     product={product}
@@ -86,8 +80,8 @@ export function ProductsTable({ initialData }: ProductsTableProps) {
           {/* Fixed Pagination Footer */}
           <PaginationFooter
             currentPage={currentPage}
-            totalItems={totalItems}
-            itemsPerPage={displayData.pagination.limit}
+            totalItems={data.totalCount}
+            itemsPerPage={data.pagination.limit}
             onPrevPage={handlePrevPage}
             onNextPage={handleNextPage}
             isPrevDisabled={isPrevDisabled}

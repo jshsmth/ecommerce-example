@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./layout/Navbar";
+import { TRPCProvider } from "./providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 min-h-screen font-sans text-gray-800`}
       >
-        <Navbar />
-        <main className="pt-8 pb-16 px-4 sm:px-6">{children}</main>
+        <TRPCProvider>
+          <Navbar />
+          <main className="pt-8 pb-16 px-4 sm:px-6">{children}</main>
+        </TRPCProvider>
       </body>
     </html>
   );

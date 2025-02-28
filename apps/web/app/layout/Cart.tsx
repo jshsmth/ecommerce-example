@@ -8,6 +8,7 @@ import { Button } from "@repo/ui";
 
 export default function Cart() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState<number | null>(null);
   const cartRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { items, totalItems, totalPrice, removeItem, updateQuantity } =
@@ -20,19 +21,36 @@ export default function Cart() {
       }
     }
 
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsCartOpen(false);
+      }
+    }
+
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  const handleQuantityUpdate = async (itemId: number, newQuantity: number) => {
+    setIsUpdating(itemId);
+    updateQuantity(itemId, newQuantity);
+    setIsUpdating(null);
+  };
 
   return (
     <div className="relative" ref={cartRef}>
       <Button
         variant="outline"
         size="sm"
-        className="p-2 rounded-full text-gray-400 hover:text-blue-500 focus:ring-blue-500 transition-colors relative flex items-center justify-center"
+        className="p-2 rounded-full text-gray-400 hover:text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors relative flex items-center justify-center"
         onClick={() => setIsCartOpen(!isCartOpen)}
+        aria-label={`Shopping cart with ${totalItems} items`}
+        aria-expanded={isCartOpen}
+        aria-controls="shopping-cart-dropdown"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,20 +62,25 @@ export default function Cart() {
           <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
         </svg>
         {totalItems > 0 && (
-          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-scale-in">
             {totalItems}
           </span>
         )}
       </Button>
 
       {isCartOpen && (
-        <div className="absolute right-0 mt-3 w-96 bg-white rounded-lg shadow-xl py-4 z-20 border border-gray-200 max-h-[80vh] overflow-auto">
+        <div
+          className="absolute right-0 mt-3 w-96 bg-white rounded-lg shadow-xl py-4 z-20 border border-gray-200 max-h-[80vh] overflow-auto animate-slide-in"
+          id="shopping-cart-dropdown"
+          role="dialog"
+          aria-label="Shopping cart contents"
+        >
           <div className="px-6 py-4 border-b border-gray-200">
             <p className="text-base font-medium text-gray-900">Shopping Cart</p>
           </div>
 
           {items.length === 0 ? (
-            <div className="px-6 py-8 text-center">
+            <div className="px-6 py-8 text-center animate-fade-in">
               <div className="text-gray-400 mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +105,7 @@ export default function Cart() {
                 {items.map((item) => (
                   <div
                     key={item.id}
-                    className="px-6 py-4 flex items-center gap-4"
+                    className="px-6 py-4 flex items-start gap-4 animate-fade-in"
                   >
                     <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 relative">
                       <Image
@@ -91,24 +114,51 @@ export default function Cart() {
                         fill
                         sizes="80px"
                         className="object-cover object-center"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                       />
                     </div>
-                    <div className="ml-2 flex-1">
-                      <p className="text-sm font-medium text-gray-900 line-clamp-1 mb-2">
-                        {item.title}
-                      </p>
-                      <div className="flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                          {item.title}
+                        </p>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-shrink-0 p-0 border-0 shadow-none h-10 w-10 flex items-center justify-center bg-transparent transition-colors cursor-pointer border-none -mt-1.5"
+                          onClick={() => removeItem(item.id)}
+                          aria-label={`Remove ${item.title} from cart`}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-7 w-7"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="oklch(0.577 0.245 27.325)"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </Button>
+                      </div>
+                      <div className="flex items-center gap-4 mt-2">
                         <div className="flex items-center bg-gray-50 rounded-md p-1">
                           <Button
                             variant="outline"
                             size="sm"
-                            className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md"
+                            className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md disabled:opacity-50 transition-opacity"
                             onClick={() =>
-                              updateQuantity(
+                              handleQuantityUpdate(
                                 item.id,
                                 Math.max(1, item.quantity - 1)
                               )
                             }
+                            disabled={isUpdating === item.id}
+                            aria-label={`Decrease quantity of ${item.title}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -124,16 +174,18 @@ export default function Cart() {
                               <path d="M5 12h14" />
                             </svg>
                           </Button>
-                          <span className="mx-3 text-sm text-gray-700 w-5 text-center font-medium">
+                          <span className="mx-3 text-sm text-gray-700 w-5 text-center font-medium transition-all">
                             {item.quantity}
                           </span>
                           <Button
                             variant="outline"
                             size="sm"
-                            className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md"
+                            className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md disabled:opacity-50 transition-opacity"
                             onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
+                              handleQuantityUpdate(item.id, item.quantity + 1)
                             }
+                            disabled={isUpdating === item.id}
+                            aria-label={`Increase quantity of ${item.title}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -150,31 +202,11 @@ export default function Cart() {
                             </svg>
                           </Button>
                         </div>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-gray-900 transition-all w-20 text-right">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="ml-2 text-gray-400 hover:text-gray-600 border-0 shadow-none h-10 w-10 flex items-center justify-center bg-transparent hover:bg-gray-50 rounded-full"
-                      onClick={() => removeItem(item.id)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M18 6L6 18M6 6l12 12" />
-                      </svg>
-                    </Button>
                   </div>
                 ))}
               </div>
@@ -182,7 +214,9 @@ export default function Cart() {
               <div className="px-6 py-4 border-t border-gray-200 mt-2">
                 <div className="flex justify-between text-sm font-medium text-gray-900 mb-4">
                   <p className="text-base">Subtotal</p>
-                  <p className="text-base">${totalPrice.toFixed(2)}</p>
+                  <p className="text-base transition-all">
+                    ${totalPrice.toFixed(2)}
+                  </p>
                 </div>
                 <Button
                   variant="primary"

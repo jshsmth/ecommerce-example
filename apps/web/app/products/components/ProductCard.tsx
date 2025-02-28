@@ -1,9 +1,9 @@
-import { Product } from "../../../lib/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import { Button, Card } from "@repo/ui";
 import { StarRating } from "./StarRating";
 import { useState } from "react";
+import { Product } from "../../../lib/types/product";
 
 interface ProductCardProps {
   product: Product;
@@ -17,7 +17,7 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
   }).format(product.price);
 
   const [imgSrc, setImgSrc] = useState<string>(
-    product.images?.[0] || "/no-image.svg"
+    product.image || "/no-image.svg"
   );
   const [imgError, setImgError] = useState<boolean>(false);
 
@@ -28,15 +28,15 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
       rounded="lg"
       shadow="sm"
       hoverEffect={true}
-      className="group flex flex-col h-full"
+      className="group relative flex flex-col h-full bg-white transition-all duration-300 hover:shadow-md border border-gray-200/80 hover:border-gray-300 overflow-hidden rounded-xl"
     >
-      <div className="relative aspect-[4/3] w-full bg-gray-50 overflow-hidden">
+      <div className="relative aspect-[4/3] w-full bg-gray-100">
         <Image
           src={imgSrc}
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-all duration-500 group-hover:scale-105"
           priority={false}
           onError={() => {
             if (!imgError) {
@@ -45,73 +45,58 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
             }
           }}
         />
-        <div className="absolute top-0 right-0 bg-blue-500 text-white px-3 py-1 m-3 rounded-full text-sm font-medium shadow-sm">
-          {formattedPrice}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+          {isNew && (
+            <span className="bg-emerald-500/95 text-white px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide shadow-sm backdrop-blur-sm">
+              NEW
+            </span>
+          )}
+          <div className="flex items-center bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
+            <span className="text-gray-900 text-sm font-semibold tracking-tight">
+              {formattedPrice}
+            </span>
+          </div>
         </div>
-
-        {isNew && (
-          <div className="absolute top-0 left-0 bg-emerald-500 text-white px-3 py-1 m-3 rounded-full text-sm font-medium shadow-sm">
-            New
-          </div>
-        )}
-
-        {product.images && product.images.length > 1 && (
-          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1.5">
-            {product.images.slice(0, 4).map((_, index) => (
-              <div
-                key={index}
-                className={`w-1.5 h-1.5 rounded-full ${index === 0 ? "bg-white" : "bg-white/60"}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
-      <div className="p-5 flex-grow flex flex-col">
-        <div className="mb-2">
-          <span className="text-xs px-2.5 py-1 bg-gray-100 rounded-full text-gray-700 font-medium">
-            {product.category.name}
+
+      <div className="flex flex-col flex-grow p-5">
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <span className="text-xs px-3 py-1.5 bg-gray-50 text-gray-600 rounded-full font-medium tracking-wide uppercase">
+            {product.category}
           </span>
-        </div>
-
-        <h3 className="font-semibold text-lg text-gray-800 group-hover:text-blue-600 transition-colors duration-200">
-          {product.title}
-        </h3>
-
-        <div className="mt-2 mb-3">
           <StarRating />
         </div>
 
-        <p className="text-gray-600 text-sm mt-1 line-clamp-2 mb-4">
+        <h3 className="font-semibold text-base text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-1 mb-2">
+          {product.title}
+        </h3>
+
+        <p className="text-gray-600 text-sm line-clamp-2 mb-4">
           {product.description}
         </p>
 
-        <div className="mt-auto">
-          <Link href={`/product?id=${product.id}`} passHref>
-            <Button
-              variant="primary"
-              size="sm"
-              className="w-full flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300"
-            >
-              <span className="inline-flex items-center">
-                View Details
-                <svg
-                  className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover:translate-x-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </span>
-            </Button>
-          </Link>
-        </div>
+        <Link
+          href={`/product?id=${product.id}`}
+          className="mt-auto inline-flex items-center justify-center py-2 px-4 text-sm font-medium text-blue-600 hover:text-white bg-blue-50 hover:bg-blue-600 rounded-lg transition-all duration-200 group/link"
+        >
+          View Details
+          <svg
+            className="w-4 h-4 ml-2 transition-transform group-hover/link:translate-x-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
       </div>
     </Card>
   );
