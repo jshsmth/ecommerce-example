@@ -17,21 +17,21 @@ export function CartItem({
   onUpdateQuantity,
 }: CartItemProps) {
   return (
-    <div className="px-6 py-4 flex items-start gap-4 animate-fade-in">
-      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 relative">
+    <div className="px-3 sm:px-6 py-4 flex items-start gap-2 sm:gap-4 animate-fade-in">
+      <div className="h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 relative">
         <Image
           src={item.image}
           alt={item.title}
           fill
-          sizes="80px"
+          sizes="(max-width: 640px) 64px, 80px"
           className="object-cover object-center"
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
         />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-2">
-          <p className="text-sm font-medium text-gray-900 line-clamp-1">
+        <div className="flex items-start justify-between gap-1 sm:gap-2">
+          <p className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-1">
             {item.title}
           </p>
           <Button
@@ -43,7 +43,7 @@ export function CartItem({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7"
+              className="h-7 w-7 sm:h-7 sm:w-7"
               viewBox="0 0 24 24"
               fill="none"
               stroke="oklch(0.577 0.245 27.325)"
@@ -56,12 +56,12 @@ export function CartItem({
             </svg>
           </Button>
         </div>
-        <div className="flex items-center gap-4 mt-2">
+        <div className="flex items-center gap-2 sm:gap-4 mt-2">
           <div className="flex items-center bg-gray-50 rounded-md p-1">
             <Button
               variant="outline"
               size="sm"
-              className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md disabled:opacity-50 transition-opacity"
+              className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-7 w-7 sm:h-9 sm:w-9 flex items-center justify-center bg-white rounded-md disabled:opacity-50 transition-opacity"
               onClick={() =>
                 onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))
               }
@@ -70,7 +70,7 @@ export function CartItem({
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -82,20 +82,20 @@ export function CartItem({
                 <path d="M5 12h14" />
               </svg>
             </Button>
-            <span className="mx-3 text-sm text-gray-700 w-5 text-center font-medium transition-all">
+            <span className="mx-2 sm:mx-3 text-xs sm:text-sm text-gray-700 w-4 sm:w-5 text-center font-medium transition-all">
               {item.quantity}
             </span>
             <Button
               variant="outline"
               size="sm"
-              className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-9 w-9 flex items-center justify-center bg-white rounded-md disabled:opacity-50 transition-opacity"
+              className="text-gray-500 hover:text-gray-700 p-0 border-0 shadow-none h-7 w-7 sm:h-9 sm:w-9 flex items-center justify-center bg-white rounded-md disabled:opacity-50 transition-opacity"
               onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
               disabled={isUpdating === item.id}
               aria-label={`Increase quantity of ${item.title}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -108,7 +108,7 @@ export function CartItem({
               </svg>
             </Button>
           </div>
-          <p className="text-sm font-medium text-gray-900 transition-all w-20 text-right">
+          <p className="text-xs sm:text-sm font-medium text-gray-900 transition-all w-16 sm:w-20 text-right">
             ${(item.price * item.quantity).toFixed(2)}
           </p>
         </div>
