@@ -23,7 +23,7 @@ export function CartDropdown({
 }: CartDropdownProps) {
   return (
     <div
-      className="absolute right-0 mt-3 w-96 bg-white rounded-lg shadow-xl py-4 z-20 border border-gray-200 max-h-[80vh] overflow-auto animate-slide-in"
+      className="fixed sm:absolute right-0 top-16 sm:top-auto sm:mt-3 w-screen sm:w-[350px] md:w-96 bg-white rounded-lg shadow-xl py-4 z-20 border border-gray-200 max-h-[calc(100vh-5rem)] overflow-auto animate-slide-in"
       id="shopping-cart-dropdown"
       role="dialog"
       aria-label="Shopping cart contents"
