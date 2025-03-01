@@ -1,16 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "../../providers";
 import { keepPreviousData } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function useProductTable() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [query, setQuery] = useState({
-    limit: 10,
-    page: 1,
+    limit: searchParams ? Number(searchParams.get("limit")) || 10 : 10,
+    page: searchParams ? Number(searchParams.get("page")) || 1 : 1,
   });
 
   const productsQuery = trpc.product.getProducts.useQuery(query, {
     placeholderData: keepPreviousData,
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("page", query.page.toString());
+    params.set("limit", query.limit.toString());
+
+    // Update URL without refreshing the page
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, [query, router]);
+
+  const handleFirstPage = () => {
+    if (!productsQuery.isSuccess || query.page === 1) {
+      return;
+    }
+
+    setQuery({
+      ...query,
+      page: 1,
+    });
+  };
 
   const handlePrevPage = () => {
     if (!productsQuery.isSuccess) return;
@@ -32,6 +56,21 @@ export function useProductTable() {
     });
   };
 
+  const handleLastPage = () => {
+    if (!productsQuery.isSuccess || !productsQuery.data?.hasMore) {
+      return;
+    }
+
+    const totalCount = productsQuery.data.totalCount;
+    const limit = query.limit;
+    const lastPage = Math.ceil(totalCount / limit);
+
+    setQuery({
+      ...query,
+      page: lastPage,
+    });
+  };
+
   const handleChangePageSize = (newLimit: number) => {
     setQuery({
       limit: newLimit,
@@ -45,15 +84,21 @@ export function useProductTable() {
     productsQuery.isFetching ||
     !productsQuery.isSuccess ||
     !productsQuery.data?.hasMore;
+  const isFirstDisabled = isPrevDisabled;
+  const isLastDisabled = isNextDisabled;
 
   return {
     data: productsQuery.data,
     isLoading: productsQuery.isLoading,
+    handleFirstPage,
     handlePrevPage,
     handleNextPage,
+    handleLastPage,
     handleChangePageSize,
+    isFirstDisabled,
     isPrevDisabled,
     isNextDisabled,
+    isLastDisabled,
     currentPage,
     isError: productsQuery.isError,
   };

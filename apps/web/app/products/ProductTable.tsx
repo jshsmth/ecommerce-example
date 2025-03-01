@@ -9,11 +9,15 @@ export function ProductsTable() {
   const {
     data,
     isLoading,
+    handleFirstPage,
     handlePrevPage,
     handleNextPage,
+    handleLastPage,
     handleChangePageSize,
+    isFirstDisabled,
     isPrevDisabled,
     isNextDisabled,
+    isLastDisabled,
     currentPage,
     isError,
   } = useProductTable();
@@ -87,10 +91,14 @@ export function ProductsTable() {
             currentPage={currentPage}
             totalItems={data.totalCount}
             itemsPerPage={data.pagination.limit}
+            onFirstPage={handleFirstPage}
             onPrevPage={handlePrevPage}
             onNextPage={handleNextPage}
+            onLastPage={handleLastPage}
+            isFirstDisabled={isFirstDisabled}
             isPrevDisabled={isPrevDisabled}
             isNextDisabled={isNextDisabled}
+            isLastDisabled={isLastDisabled}
             isLoading={isLoading}
           />
         </div>
