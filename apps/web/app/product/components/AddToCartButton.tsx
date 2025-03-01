@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { Button } from "@repo/ui";
 import { useCartStore } from "../../../lib/store/cartStore";
 import { Product } from "../../../lib/types/product";
@@ -10,7 +7,6 @@ interface AddToCartButtonProps {
 }
 
 export default function AddToCartButton({ product }: AddToCartButtonProps) {
-  const [quantity, setQuantity] = useState(1);
   const { addItem } = useCartStore();
 
   const handleAddToCart = () => {
@@ -21,33 +17,12 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
         price: product.price,
         image: product.image,
       },
-      quantity
+      1
     );
   };
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center">
-        <label
-          htmlFor="quantity"
-          className="block text-sm font-medium text-gray-700 mr-3"
-        >
-          Quantity:
-        </label>
-        <select
-          id="quantity"
-          className="w-20 py-2 px-3 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
-        >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-            <option key={num} value={num}>
-              {num}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <Button
         variant="primary"
         size="lg"

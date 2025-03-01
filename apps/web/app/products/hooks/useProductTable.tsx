@@ -55,5 +55,6 @@ export function useProductTable() {
     isPrevDisabled,
     isNextDisabled,
     currentPage,
+    isError: productsQuery.isError,
   };
 }

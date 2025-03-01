@@ -15,11 +15,16 @@ export function ProductsTable() {
     isPrevDisabled,
     isNextDisabled,
     currentPage,
+    isError,
   } = useProductTable();
 
   // Only show loading skeleton on initial load
   if (isLoading && !data) {
     return <LoadingSkeleton />;
+  }
+
+  if (isError) {
+    return <div>Error loading products</div>;
   }
 
   return (

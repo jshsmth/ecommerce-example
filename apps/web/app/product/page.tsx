@@ -124,18 +124,9 @@ export default function Product(props: { searchParams: SearchParams }) {
                 <h3 className="text-lg font-medium mb-3">Description</h3>
                 <div className="text-gray-600 leading-relaxed space-y-2">
                   <p>{productQuery.data?.description}</p>
-                  {productQuery.data?.description &&
-                    productQuery.data?.description.length < 100 && (
-                      <p>
-                        This premium product offers exceptional quality and
-                        value. Perfect for everyday use or as a special gift for
-                        someone who appreciates fine craftsmanship.
-                      </p>
-                    )}
                 </div>
               </div>
 
-              {/* Product Actions */}
               <div className="space-y-5">
                 <AddToCartButton product={productQuery.data} />
               </div>
