@@ -4,20 +4,20 @@ import { ProductCard } from "./ProductCard";
 import { useProductTable } from "./hooks/useProductTable";
 import { PaginationFooter } from "./components/PaginationFooter";
 import { LoadingSkeleton } from "../layout/Skeleton";
-import { useSearchParams } from "next/navigation";
 
 export function ProductsTable() {
-  const searchParams = useSearchParams();
-  const page = searchParams ? searchParams.get("page") : null;
-
   const {
     data,
     isLoading,
+    handleFirstPage,
     handlePrevPage,
     handleNextPage,
+    handleLastPage,
     handleChangePageSize,
+    isFirstDisabled,
     isPrevDisabled,
     isNextDisabled,
+    isLastDisabled,
     currentPage,
     isError,
   } = useProductTable();
@@ -42,11 +42,6 @@ export function ProductsTable() {
                 className="text-2xl font-semibold text-gray-800"
               >
                 Explore Products
-                {page && (
-                  <span className="text-sm text-gray-500 ml-2">
-                    Page {page}
-                  </span>
-                )}
               </h2>
               <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
                 <label
@@ -96,10 +91,14 @@ export function ProductsTable() {
             currentPage={currentPage}
             totalItems={data.totalCount}
             itemsPerPage={data.pagination.limit}
+            onFirstPage={handleFirstPage}
             onPrevPage={handlePrevPage}
             onNextPage={handleNextPage}
+            onLastPage={handleLastPage}
+            isFirstDisabled={isFirstDisabled}
             isPrevDisabled={isPrevDisabled}
             isNextDisabled={isNextDisabled}
+            isLastDisabled={isLastDisabled}
             isLoading={isLoading}
           />
         </div>

@@ -25,6 +25,17 @@ export function useProductTable() {
     router.push(`?${params.toString()}`, { scroll: false });
   }, [query, router]);
 
+  const handleFirstPage = () => {
+    if (!productsQuery.isSuccess || query.page === 1) {
+      return;
+    }
+
+    setQuery({
+      ...query,
+      page: 1,
+    });
+  };
+
   const handlePrevPage = () => {
     if (!productsQuery.isSuccess) return;
 
@@ -45,6 +56,21 @@ export function useProductTable() {
     });
   };
 
+  const handleLastPage = () => {
+    if (!productsQuery.isSuccess || !productsQuery.data?.hasMore) {
+      return;
+    }
+
+    const totalCount = productsQuery.data.totalCount;
+    const limit = query.limit;
+    const lastPage = Math.ceil(totalCount / limit);
+
+    setQuery({
+      ...query,
+      page: lastPage,
+    });
+  };
+
   const handleChangePageSize = (newLimit: number) => {
     setQuery({
       limit: newLimit,
@@ -58,15 +84,21 @@ export function useProductTable() {
     productsQuery.isFetching ||
     !productsQuery.isSuccess ||
     !productsQuery.data?.hasMore;
+  const isFirstDisabled = isPrevDisabled;
+  const isLastDisabled = isNextDisabled;
 
   return {
     data: productsQuery.data,
     isLoading: productsQuery.isLoading,
+    handleFirstPage,
     handlePrevPage,
     handleNextPage,
+    handleLastPage,
     handleChangePageSize,
+    isFirstDisabled,
     isPrevDisabled,
     isNextDisabled,
+    isLastDisabled,
     currentPage,
     isError: productsQuery.isError,
   };
