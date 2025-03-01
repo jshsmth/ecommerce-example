@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@repo/ui";
-import { useState } from "react";
 import { Product } from "../../lib/types/product";
 import { StarRating } from "./components/StarRating";
 
@@ -16,11 +15,6 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
     currency: "USD",
   }).format(product.price);
 
-  const [imgSrc, setImgSrc] = useState<string>(
-    product.image || "/no-image.svg"
-  );
-  const [imgError, setImgError] = useState<boolean>(false);
-
   return (
     <Card
       variant="outlined"
@@ -32,18 +26,14 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
     >
       <div className="relative aspect-[4/3] w-full bg-gray-100">
         <Image
-          src={imgSrc}
+          src={product.image}
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-all duration-500 group-hover:scale-105"
           priority={false}
-          onError={() => {
-            if (!imgError) {
-              setImgSrc("/no-image.svg");
-              setImgError(true);
-            }
-          }}
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjFmMWYxIi8+PC9zdmc+"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
