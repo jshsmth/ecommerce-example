@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Card } from "@repo/ui";
-import { StarRating } from "./StarRating";
+import { Card } from "@repo/ui";
 import { useState } from "react";
-import { Product } from "../../../lib/types/product";
+import { Product } from "../../lib/types/product";
+import { StarRating } from "./components/StarRating";
 
 interface ProductCardProps {
   product: Product;

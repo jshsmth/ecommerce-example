@@ -1,9 +1,9 @@
 "use client";
 
 import { ProductCard } from "./ProductCard";
-import { useProductTable } from "../hooks/useProductTable";
-import { PaginationFooter } from "./PaginationFooter";
-import { LoadingSkeleton } from "../../layout/Skeleton";
+import { useProductTable } from "./hooks/useProductTable";
+import { PaginationFooter } from "./components/PaginationFooter";
+import { LoadingSkeleton } from "../layout/Skeleton";
 
 export function ProductsTable() {
   const {

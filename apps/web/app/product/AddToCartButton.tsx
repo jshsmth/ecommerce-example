@@ -1,6 +1,6 @@
 import { Button } from "@repo/ui";
-import { useCartStore } from "../../../lib/store/cartStore";
-import { Product } from "../../../lib/types/product";
+import { Product } from "../../lib/types/product";
+import { useCartStore } from "../../lib/store/cartStore";
 
 interface AddToCartButtonProps {
   product: Product;

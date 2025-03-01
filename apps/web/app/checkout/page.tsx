@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "../../lib/store/cartStore";
-import OrderSummary from "./components/OrderSummary";
-import PaymentForm from "./components/PaymentForm";
-import EmptyCart from "./components/EmptyCart";
-import PaymentSuccess from "./components/PaymentSuccess";
+import OrderSummary from "./OrderSummary";
+import PaymentForm from "./PaymentForm";
+import EmptyCart from "./EmptyCart";
+import PaymentSuccess from "./PaymentSuccess";
 
 export default function Checkout() {
   const router = useRouter();

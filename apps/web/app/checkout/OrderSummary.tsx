@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { CartItem } from "../../../lib/store/cartStore";
+import { CartItem } from "../../lib/store/cartStore";
 
 interface OrderSummaryProps {
   items: CartItem[];
