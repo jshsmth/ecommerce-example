@@ -1,6 +1,6 @@
 // Import the Tailwind CSS
 import "@repo/ui/styles";
-import { ProductsTable } from "./products/components/ProductTable";
+import { ProductsTable } from "./products/ProductTable";
 import HeroBanner from "./HeroBanner";
 
 export default async function Home() {
