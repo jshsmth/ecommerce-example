@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Card } from "@repo/ui";
 import { Product } from "../../lib/types/product";
 import { StarRating } from "./components/StarRating";
+import { useSearchParams } from "next/navigation";
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +11,10 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, isNew = false }: ProductCardProps) {
+  const searchParams = useSearchParams();
+  const currentPage = searchParams?.get("page") || "1";
+  const currentLimit = searchParams?.get("limit") || "10";
+
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -68,7 +73,7 @@ export function ProductCard({ product, isNew = false }: ProductCardProps) {
         </p>
 
         <Link
-          href={`/product?id=${product.id}`}
+          href={`/product?id=${product.id}&returnPage=${currentPage}&returnLimit=${currentLimit}`}
           className="mt-auto inline-flex items-center justify-center py-2 px-4 text-sm font-medium text-blue-600 hover:text-white bg-blue-50 hover:bg-blue-600 rounded-lg transition-all duration-200 group/link"
         >
           View Details
