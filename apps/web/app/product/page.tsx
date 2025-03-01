@@ -1,7 +1,7 @@
 "use client";
 
 import { use } from "react";
-import { trpc } from "../providers";
+import { trpc } from "../TRPCProvider";
 import { LoadingSkeleton } from "../layout/Skeleton";
 import NoProductId from "./NoProductId";
 import ProductNotFound from "./ProductNotFound";

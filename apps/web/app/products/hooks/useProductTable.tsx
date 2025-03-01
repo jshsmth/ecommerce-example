@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { trpc } from "../../providers";
+import { trpc } from "../../TRPCProvider";
 import { keepPreviousData } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -90,6 +90,7 @@ export function useProductTable() {
   return {
     data: productsQuery.data,
     isLoading: productsQuery.isLoading,
+    isInitialLoading: productsQuery.isPending,
     handleFirstPage,
     handlePrevPage,
     handleNextPage,

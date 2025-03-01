@@ -20,10 +20,10 @@ export function ProductsTable() {
     isLastDisabled,
     currentPage,
     isError,
+    isInitialLoading,
   } = useProductTable();
 
-  // Only show loading skeleton on initial load
-  if (isLoading && !data) {
+  if (isInitialLoading) {
     return <LoadingSkeleton />;
   }
 
