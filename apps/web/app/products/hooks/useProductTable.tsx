@@ -1,16 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "../../providers";
 import { keepPreviousData } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function useProductTable() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [query, setQuery] = useState({
-    limit: 10,
-    page: 1,
+    limit: searchParams ? Number(searchParams.get("limit")) || 10 : 10,
+    page: searchParams ? Number(searchParams.get("page")) || 1 : 1,
   });
 
   const productsQuery = trpc.product.getProducts.useQuery(query, {
     placeholderData: keepPreviousData,
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("page", query.page.toString());
+    params.set("limit", query.limit.toString());
+
+    // Update URL without refreshing the page
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, [query, router]);
 
   const handlePrevPage = () => {
     if (!productsQuery.isSuccess) return;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@repo/ui";
+import { useSearchParams } from "next/navigation";
 
 interface PaginationFooterProps {
   currentPage: number;
@@ -22,6 +23,10 @@ export function PaginationFooter({
   isNextDisabled,
   isLoading,
 }: PaginationFooterProps) {
+  const searchParams = useSearchParams();
+  const page = searchParams ? Number(searchParams.get("page")) || 1 : 1;
+  const limit = searchParams ? Number(searchParams.get("limit")) || 10 : 10;
+
   // Calculate the range of items being displayed
   const startItem = currentPage * itemsPerPage + 1;
   const endItem = Math.min((currentPage + 1) * itemsPerPage, totalItems);
@@ -38,6 +43,9 @@ export function PaginationFooter({
               approximately{" "}
               <span className="font-medium text-gray-700">{totalItems}+</span>{" "}
               items
+              <span className="ml-2 text-xs text-gray-400">
+                (Page {page}, {limit} per page)
+              </span>
             </>
           ) : (
             "No items to display"
