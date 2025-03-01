@@ -82,16 +82,7 @@ export default function Product(props: { searchParams: SearchParams }) {
             </div>
 
             {/* Product Details */}
-            <div className="md:w-1/2 pt-8 md:pt-0">
-              {/* <div className="mb-3">
-              <Link
-                href={`/category/${productQuery.data?.categoryId}`}
-                className="inline-block px-3 py-1 bg-gray-100 text-sm text-gray-600 rounded-full hover:bg-gray-200 transition-colors duration-200"
-              >
-                {productQuery?.data?.category?.name}
-              </Link>
-            </div> */}
-
+            <div className="md:w-1/2 pt-8 md:pt-0 pb-8 pr-4">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 leading-tight">
                 {productQuery.data?.title}
               </h1>
@@ -127,7 +118,7 @@ export default function Product(props: { searchParams: SearchParams }) {
                 </div>
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-5 mb-4">
                 <AddToCartButton product={productQuery.data} />
               </div>
             </div>
