@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@repo/ui";
 
 interface HeroBannerProps {
   title?: string;
@@ -29,18 +30,22 @@ export default function HeroBanner({
               {description}
             </p>
             <div className="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start mb-8 md:mb-0">
-              <button
-                className="px-5 py-2.5 md:px-6 md:py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+              <Button
+                variant="primary"
+                size="md"
                 onClick={onPrimaryClick}
+                className="md:px-6 md:py-3"
               >
                 {primaryButtonText}
-              </button>
-              <button
-                className="px-5 py-2.5 md:px-6 md:py-3 bg-gray-100 text-gray-800 font-medium rounded-lg hover:bg-gray-200 transition-colors"
+              </Button>
+              <Button
+                variant="secondary"
+                size="md"
                 onClick={onSecondaryClick}
+                className="md:px-6 md:py-3"
               >
                 {secondaryButtonText}
-              </button>
+              </Button>
             </div>
           </div>
           <div className="w-full md:w-1/2 h-64 md:h-96 relative bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-center p-4 md:p-8">
