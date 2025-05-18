@@ -1,6 +1,6 @@
 # Smithy Frontend Engineer
 
-This is a modern, Frontend e-commerce product showcase application built with Next.js and tRPC. The project demonstrates my ability to work with modern frontend technologies and implement best practices in a monorepo architecture.
+Developed over two days, this e-commerce product showcase uses a modern monorepo setup with Next.js and tRPC. It demonstrates clean UI implementation, scalable architecture, and integration of API layers, great for showing best practices in component structure and code organisation.
 
 ## Requirements Implementation
 
