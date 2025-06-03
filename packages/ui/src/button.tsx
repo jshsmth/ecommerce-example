@@ -1,6 +1,8 @@
 "use client";
 
 import { ReactNode, ButtonHTMLAttributes } from "react";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -21,7 +23,6 @@ export const Button = ({
   const baseClasses =
     "rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer";
 
-  // Variant-specific classes
   const variantClasses = {
     primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
     secondary:
@@ -36,7 +37,9 @@ export const Button = ({
     lg: "px-6 py-3 text-lg",
   };
 
-  const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const buttonClasses = twMerge(
+    clsx(baseClasses, variantClasses[variant], sizeClasses[size], className)
+  );
 
   return (
     <button

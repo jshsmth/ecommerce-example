@@ -1,6 +1,8 @@
 "use client";
 
 import { ReactNode } from "react";
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 interface CardProps {
   children: ReactNode;
@@ -51,13 +53,21 @@ export const Card = ({
     lg: "shadow-lg",
   };
 
-  // Hover effect classes
   const hoverClasses = hoverEffect
     ? "hover:shadow-md hover:transform hover:-translate-y-1"
     : "";
 
-  // Combine all classes
-  const cardClasses = `${baseClasses} ${variantClasses[variant]} ${paddingClasses[padding]} ${roundedClasses[rounded]} ${shadowClasses[shadow]} ${hoverClasses} ${className}`;
+  const cardClasses = twMerge(
+    clsx(
+      baseClasses,
+      variantClasses[variant],
+      paddingClasses[padding],
+      roundedClasses[rounded],
+      shadowClasses[shadow],
+      hoverClasses,
+      className
+    )
+  );
 
   return <div className={cardClasses}>{children}</div>;
 };
