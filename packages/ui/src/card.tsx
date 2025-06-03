@@ -4,6 +4,14 @@ import { ReactNode } from "react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
+// NOTE: If I had more time, I would implement this as a compound component, e.g.,
+// <Card>
+//   <Card.Title>...</Card.Title>
+//   <Card.Body>...</Card.Body>
+//   <Card.Footer>...</Card.Footer>
+// </Card>
+// to allow for more flexible composition and structure.
+
 interface CardProps {
   children: ReactNode;
   className?: string;
