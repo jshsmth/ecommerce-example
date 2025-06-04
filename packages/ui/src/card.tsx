@@ -22,6 +22,34 @@ interface CardProps {
   hoverEffect?: boolean;
 }
 
+const variantClasses = {
+  default: "bg-white",
+  outlined: "bg-white border border-gray-200",
+  elevated: "bg-white shadow",
+};
+
+const paddingClasses = {
+  none: "p-0",
+  sm: "p-3",
+  md: "p-5",
+  lg: "p-7",
+};
+
+const roundedClasses = {
+  none: "rounded-none",
+  sm: "rounded",
+  md: "rounded-xl",
+  lg: "rounded-2xl",
+  full: "rounded-full",
+};
+
+const shadowClasses = {
+  none: "",
+  sm: "shadow-sm",
+  md: "shadow-md",
+  lg: "shadow-lg",
+};
+
 export const Card = ({
   children,
   className = "",
@@ -32,34 +60,6 @@ export const Card = ({
   hoverEffect = false,
 }: CardProps) => {
   const baseClasses = "overflow-hidden transition-all duration-300";
-
-  const variantClasses = {
-    default: "bg-white",
-    outlined: "bg-white border border-gray-200",
-    elevated: "bg-white shadow",
-  };
-
-  const paddingClasses = {
-    none: "p-0",
-    sm: "p-3",
-    md: "p-5",
-    lg: "p-7",
-  };
-
-  const roundedClasses = {
-    none: "rounded-none",
-    sm: "rounded",
-    md: "rounded-xl",
-    lg: "rounded-2xl",
-    full: "rounded-full",
-  };
-
-  const shadowClasses = {
-    none: "",
-    sm: "shadow-sm",
-    md: "shadow-md",
-    lg: "shadow-lg",
-  };
 
   const hoverClasses = hoverEffect
     ? "hover:shadow-md hover:transform hover:-translate-y-1"
